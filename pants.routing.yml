@@ -1,0 +1,11 @@
+pants.change:
+  path: 'pants/change/{user}'
+  defaults:
+    _content: 'Drupal\pants\Controller\PantsController::changePants'
+    _title: 'Change pants'
+  requirements:
+    _permission: 'access content'
+pants.settings:
+  path: 'admin/config/people/pants/'
+  defaults:
+    _form: ''

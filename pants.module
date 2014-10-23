@@ -1,0 +1,10 @@
+<?php
+
+function pants_theme() {
+  return array(
+    'pants_status' => array(
+      'variables' => array('pants_status' => 0),
+      'template' => 'pants-status',
+    ),
+  );
+}

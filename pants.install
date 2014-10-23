@@ -1,0 +1,43 @@
+<?php
+
+function pants_install() {
+  // Get the default User display's content
+  $content = entity_get_display('user', 'user', 'default')
+    ->get('content');
+  // Add pants_status as a displayed field
+  $content['pants_status'] = array(
+    'type' => 'boolean',
+    'weight' => 0,
+    'settings' => array(),
+    'third_party_settings' => array(),
+    'label' => 'above'
+  );
+  // Get the default User display's depdendencies
+  $dependencies = entity_get_display('user', 'user', 'default')
+    ->get('dependencies');
+  // Check to see if pants_status already added
+  if (!in_array('field.field.user.user.pants_status', $dependencies['entity'])) {
+    $dependencies['entity'][] = 'field.field.user.user.pants_status';
+  }
+  // Save the new display
+  entity_get_display('user', 'user', 'default')
+    ->set('content', $content)
+    ->set('dependencies', $dependencies)
+    ->save();
+  // Get the default User form display's content
+  $content = entity_get_form_display('user', 'user', 'default')
+    ->get('content');
+  // Add pants_status
+  $content['pants_status'] = array(
+    'type' => 'boolean_checkbox',
+    'weight' => 0,
+    'settings' => array ('display_label' => 1),
+    'third_party_settings' => array()
+  );
+  // Save the form display
+  entity_get_form_display('user', 'user', 'default')
+    ->set('content', $content)
+    ->save();
+}
+
+// @todo uninstall entity displays and fields

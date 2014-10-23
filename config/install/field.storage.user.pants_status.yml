@@ -1,0 +1,17 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - user
+id: user.pants_status
+field_name: pants_status
+entity_type: user
+type: boolean
+settings:
+  on_label: On
+  off_label: Off
+module: core
+locked: true
+cardinality: 1
+translatable: true
+indexes: {  }
