@@ -9,7 +9,7 @@ namespace Drupal\pants\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\user\UserInterface;
-use Drupal\pants\Plugin\Block\PantsBlock;
+use Drupal\Core\Access\AccessResult;
 
 class PantsController extends ControllerBase {
 
@@ -37,6 +37,13 @@ class PantsController extends ControllerBase {
       '#theme' => 'pants_status',
       '#pants_status' => $label
     );
+  }
+
+  public function changeAccess(UserInterface $user) {
+    // Check if user is an administrator or has access to change pants
+    $access = $user->hasPermission('change pants status') || $user->hasPermission('administer pants');
+    // Return the appropriate AccessResultInterface
+    return $access ? AccessResult::allowed() : AccessResult::forbidden();
   }
 
 }

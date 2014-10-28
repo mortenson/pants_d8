@@ -33,7 +33,7 @@ class PantsBlock extends BlockBase {
     }
     // Check what the current value is
     $value = $current_pants_status->get(0)->getValue();
-    $current_value = is_array($value) && $value['value'] ? 0 : 1;
+    $current_value = is_array($value) && isset($value['value']) && $value['value'] ? 0 : 1;
     // Get the current options for pants_status
     $options = $current_pants_status->get(0)->getPossibleOptions();
     // Get the appropriate label

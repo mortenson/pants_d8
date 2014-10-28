@@ -4,7 +4,7 @@ pants.change:
     _content: 'Drupal\pants\Controller\PantsController::changePants'
     _title: 'Change pants'
   requirements:
-    _permission: 'access content'
+    _custom_access: 'Drupal\pants\Controller\PantsController::changeAccess'
 pants.settings:
   path: 'admin/config/people/pants/'
   defaults:
