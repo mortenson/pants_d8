@@ -6,6 +6,8 @@ pants.change:
   requirements:
     _custom_access: 'Drupal\pants\Controller\PantsController::changeAccess'
 pants.settings:
-  path: 'admin/config/people/pants/'
+  path: 'admin/config/people/pants'
   defaults:
-    _form: ''
+    _form: 'Drupal\pants\Form\PantsConfigForm'
+  requirements:
+    _permission: 'foo'

@@ -1,7 +1,4 @@
 services:
   plugin.manager.pants.pants_type:
-    class: Drupal\Core\Plugin\DefaultPluginManager
-    arguments:
-      - Plugin/PantsStatus
-      - @container.namespaces
-      - @module_handler
+    class: Drupal\pants\Plugin\PantsTypeManager
+    parent: default_plugin_manager

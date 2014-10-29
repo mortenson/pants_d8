@@ -1,5 +1,7 @@
 <?php
 
+
+
 function pants_theme() {
   return array(
     'pants_status' => array(
@@ -8,3 +10,45 @@ function pants_theme() {
     ),
   );
 }
+
+/**
+function pants_user_view($account, $view_mode, $langcode) {
+if (isset($account->content['pants_status'])) {
+$account->content['pants_status'][0] = array(
+'#theme' => 'pants_status',
+'#pants_status' => $account->pants_status[LANGUAGE_NONE][0]['value'],
+'#pants_type' => variable_get('pants_type', ''),
+);
+}
+}
+ */
+function pants_entity_view(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode, $langcode) {
+  if ($entity->getEntityType()->getLabel() == 'User') {
+    if (isset($build['pants_status'])) {
+
+    }
+    drupal_set_message('DEBUG: ' . json_encode($build));
+  }
+}
+
+function pants_entity_presave(\Drupal\user\Entity\User $entity) {
+  if ($entity->getEntityType()->getLabel() == 'User') {
+    drupal_set_message('DEBUG: ' . json_encode($entity->get('pants_status')->get(0)->getValue()));
+  }
+}
+/**
+ *   global $user;
+
+$original_pants_status = isset($account->original->pants_status[LANGUAGE_NONE][0]['value']) ? $account->original->pants_status[LANGUAGE_NONE][0]['value'] : NULL;
+$new_pants_status = isset($account->pants_status[LANGUAGE_NONE][0]['value']) ? $account->pants_status[LANGUAGE_NONE][0]['value'] : NULL;
+if ($new_pants_status !== $original_pants_status) {
+db_insert('pants_history')
+->fields(array(
+'uid' => $account->uid,
+'status' => $new_pants_status,
+'changed' => REQUEST_TIME,
+'changed_by' => $user->uid,
+))
+->execute();
+}
+ */
