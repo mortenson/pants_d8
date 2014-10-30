@@ -21,19 +21,18 @@ $account->content['pants_status'][0] = array(
 );
 }
 }
- */
+*/
 function pants_entity_view(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode, $langcode) {
-  if ($entity->getEntityType()->getLabel() == 'User') {
+  if ($entity instanceof \Drupal\user\UserInterface) {
     if (isset($build['pants_status'])) {
 
     }
-    drupal_set_message('DEBUG: ' . json_encode($build));
   }
 }
 
-function pants_entity_presave(\Drupal\user\Entity\User $entity) {
-  if ($entity->getEntityType()->getLabel() == 'User') {
-    drupal_set_message('DEBUG: ' . json_encode($entity->get('pants_status')->get(0)->getValue()));
+function pants_entity_presave(\Drupal\Core\Entity\EntityInterface $entity) {
+  if ($entity instanceof \Drupal\user\UserInterface) {
+    //drupal_set_message('DEBUG: ' . json_encode($entity->get('pants_status')->get(0)->getValue()));
   }
 }
 /**

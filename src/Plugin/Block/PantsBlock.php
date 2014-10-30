@@ -8,6 +8,7 @@
 namespace Drupal\pants\Plugin\Block;
 
 use Drupal\Core\Block\BlockBase;
+use Drupal\Core\Session\AccountInterface;
 
 /**
  * Provides a 'Change Pants' block.
@@ -18,24 +19,16 @@ use Drupal\Core\Block\BlockBase;
  * )
  */
 class PantsBlock extends BlockBase {
-
+  // @todo Set cache tags on a per user basis
   public function build() {
     // @todo use dependency injection
     $uid = \Drupal::currentUser()->id();
     $user = entity_load('user', $uid);
 
-    // @todo Get answer to question: "Is there an easier way to accomplish getting the current value of pants_status (whether or not it's set)?"
-    $current_pants_status = $user->hasField('pants_status') ? $user->get('pants_status') : FALSE;
-    // If pants_status doesn't exist, something went wrong with the install
-    if (!$current_pants_status) {
-      drupal_set_message('The pants_status field does not exist. Please uninstall and reinstall the pants_status module.', 'error');
-      return FALSE;
-    }
     // Check what the current value is
-    $value = $current_pants_status->get(0)->getValue();
-    $current_value = is_array($value) && isset($value['value']) && $value['value'] ? 0 : 1;
+    $current_value = (int) $user->pants_status->value;
     // Get the current options for pants_status
-    $options = $current_pants_status->get(0)->getPossibleOptions();
+    $options = $user->get('pants_status')->get(0)->getPossibleOptions();
     // Get the appropriate label
     $label = $options[$current_value];
 
@@ -57,6 +50,15 @@ class PantsBlock extends BlockBase {
       ),
     );
     return $block;
+  }
+
+  protected function blockAccess(AccountInterface $account) {
+    $user = entity_load('user', $account->id());
+    // If pants_status doesn't exist, something went wrong with the install
+    if (!$user->hasField('pants_status')) {
+      return FALSE;
+    }
+    return TRUE;
   }
 
 }
